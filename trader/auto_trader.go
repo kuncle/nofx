@@ -329,7 +329,7 @@ func (at *AutoTrader) runCycle() error {
 		log.Printf("  [%d] %s: %s - %s", i+1, d.Symbol, d.Action, d.Reasoning)
 		if d.Action == "open_long" || d.Action == "open_short" {
 			log.Printf("      杠杆: %dx | 仓位: %.2f USDT | 止损: %.4f | 止盈: %.4f",
-				d.Leverage, d.PositionSizeUSD, d.StopLoss, d.TakeProfit)
+				d.Leverage, d.PositionSizeUSD, d.StopLoss, d.TakeProfitLevels[0])
 		}
 	}
 	log.Println()
@@ -608,7 +608,7 @@ func (at *AutoTrader) executeOpenLongWithRecord(decision *decision.Decision, act
 	if err := at.trader.SetStopLoss(decision.Symbol, "LONG", quantity, decision.StopLoss); err != nil {
 		log.Printf("  ⚠ 设置止损失败: %v", err)
 	}
-	if err := at.trader.SetTakeProfit(decision.Symbol, "LONG", quantity, decision.TakeProfit); err != nil {
+	if err := at.trader.SetTakeProfit(decision.Symbol, "LONG", quantity, decision.TakeProfitLevels[0]); err != nil {
 		log.Printf("  ⚠ 设置止盈失败: %v", err)
 	}
 
@@ -661,7 +661,7 @@ func (at *AutoTrader) executeOpenShortWithRecord(decision *decision.Decision, ac
 	if err := at.trader.SetStopLoss(decision.Symbol, "SHORT", quantity, decision.StopLoss); err != nil {
 		log.Printf("  ⚠ 设置止损失败: %v", err)
 	}
-	if err := at.trader.SetTakeProfit(decision.Symbol, "SHORT", quantity, decision.TakeProfit); err != nil {
+	if err := at.trader.SetTakeProfit(decision.Symbol, "SHORT", quantity, decision.TakeProfitLevels[0]); err != nil {
 		log.Printf("  ⚠ 设置止盈失败: %v", err)
 	}
 
